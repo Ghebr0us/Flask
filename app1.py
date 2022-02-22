@@ -8,7 +8,7 @@ def hello_world():
 
 @app.route('/it', methods=['GET'])
 def ciao_mondo():
-    return render_template("index.html",testo = 'Ciao, Mondo!')
+    return render_template("index.html",testo = 'Hello, World')
 
 
 if __name__ == '__main__':
