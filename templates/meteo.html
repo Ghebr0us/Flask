@@ -1,9 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
 
+
+<head>
+    <title>Meteo</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="/static/css/meteo.css">
+    <link rel="shortcut icon" href="/static/images/icon.ico" type="image/x-icon">
 </head>
+
 <body>
-    <img src="{{meteo}}" alt="meteo di oggi">
+    <div class="container">
+        <i class="{{ icon }}"></i>
+    </div>
 </body>
+
+<style>
+    body {
+        background-color: {{ bg_color }};
+    }
+
+    i {
+        color: #fff;
+        font-size: 200px;
+    }
+</style>
+
 </html>

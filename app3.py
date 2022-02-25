@@ -9,8 +9,8 @@ def home():
     return render_template("index3.html")
 @app.route('/calendar', methods=['GET'])
 def calendario():
-
-    return render_template("calendar.html")
+    fine_scuola = datetime(2022,6,8) - datetime.now()
+    return render_template("calendar.html", countdown = fine_scuola.days)
 
 @app.route('/book', methods=['GET'])
 def libro():
@@ -33,14 +33,18 @@ def meteorologia():
     import random
     Random = random.randint(0,8)
     if Random <= 2:
-        immagine = '/static/images/sole.jpg'
+        immagine = 'bi bi-brightness-high'
+        bg_color = '#fbc531'
     elif Random <= 4:
-        immagine = '/static/images/pioggia.jpg'
+        immagine = 'bi bi-cloud-drizzle'
+        bg_color = '#7f8fa6'
     elif Random <= 6:
-        immagine = '/static/images/grandine.jpg'
+        immagine = 'bi bi-snow2'
+        bg_color = '#dcdde1'
     else:
-        immagine ='/static/images/nebbia.jpg'
-    return render_template("meteo.html" ,meteo = immagine)
+        immagine ='bi bi-cloud-fog2'
+        bg_color = '#353b48'
+    return render_template("meteo.html" , icon=immagine, bg_color=bg_color)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)

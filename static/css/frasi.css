@@ -1,0 +1,16 @@
+.container {
+    width: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.autore {
+    font-size: 50px;
+}
+
+.frase {
+    font-size: 100px;
+}
