@@ -7,10 +7,11 @@
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
+    color: #fff;
 }
 
 body {
-    background-color: #ffe5b4;
+    background: linear-gradient(25deg, #8c7ae6, #e84118);
     font-family: 'Oswald', sans-serif;
 }
 

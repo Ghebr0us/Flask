@@ -6,12 +6,12 @@ import random
 @app.route('/', methods=['GET'])   # / è l'indirizzo
 def home():
     return render_template("index3.html")
-@app.route('/calendar', methods=['GET'])
+@app.route('/quantomanca', methods=['GET'])
 def calendario():
     fine_scuola = datetime(2022,6,8) - datetime.now()
     return render_template("calendar.html", countdown = fine_scuola.days)
 
-@app.route('/book', methods=['GET'])
+@app.route('/frasicelebri', methods=['GET'])
 def libro():
     frasi = [{'autore':'Dietrich Bonhoeffer','Frase':'Contro la stupidità non abbiamo difese.'},
     {'autore':'Charlie Chaplin','Frase':'Un giorno senza un sorriso è un giorno perso.'},
