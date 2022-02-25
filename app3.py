@@ -1,9 +1,8 @@
 from flask import Flask, render_template 
 app = Flask(__name__)
 from datetime import datetime
+import random
 
-mese = datetime.now().month
-anno = datetime.now().year
 @app.route('/', methods=['GET'])   # / è l'indirizzo
 def home():
     return render_template("index3.html")
@@ -14,7 +13,6 @@ def calendario():
 
 @app.route('/book', methods=['GET'])
 def libro():
-    import random
     frasi = [{'autore':'Dietrich Bonhoeffer','Frase':'Contro la stupidità non abbiamo difese.'},
     {'autore':'Charlie Chaplin','Frase':'Un giorno senza un sorriso è un giorno perso.'},
     {'autore':'Francesco Bacone','Frase':'Sapere è potere.'},
@@ -30,7 +28,6 @@ def libro():
 
 @app.route('/meteo', methods=['GET'])
 def meteorologia():
-    import random
     Random = random.randint(0,8)
     if Random <= 2:
         immagine = 'bi bi-brightness-high'
