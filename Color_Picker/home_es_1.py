@@ -7,7 +7,7 @@
 #- Compaia un riquadro con il colore indicato
 from flask import Flask, render_template 
 app = Flask(__name__)
-
+@app.route('/', methods=['GET']) 
 def hex():
     return render_template("home_style1.html",hex = hex)
 
