@@ -8,10 +8,8 @@
 from flask import Flask, render_template 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])   # / è l'indirizzo
 def hex():
-  hex_input = input('inserire valore in hex: ')
-  return render_template("home_style1.html",hex = hex_input)
+    return render_template("home_style1.html",hex = hex)
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
