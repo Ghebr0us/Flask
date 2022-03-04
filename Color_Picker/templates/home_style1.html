@@ -4,9 +4,11 @@
     <title>Color Ex</title>
 </head>
 <body>
-  inserire colore in hex = <input name = 'hexa',type="DOMString">
-<style>
-background-color: hexa ;
-</style>
+<form action="{{ url_for("hex_rgb")}}" method="post">
+  
+  <label for="input_hex">inserire valore in hex: </label><input name = 'hexa' type="DOMString" id="input_hex">
+  <button type="submit" >Conferma</button>
+</form>
+<style></style>
 </body>
 </html>
