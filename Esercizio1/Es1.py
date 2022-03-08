@@ -6,8 +6,17 @@ from flask import Flask, render_template, request
 app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
-def hello_world():
+def log1():
     return render_template("style1.html")
+
+@app.route('/login', methods=['GET'])
+def log2():
+  us = request.args['username']
+  pw = request.args['Password']
+  if us == 'admin' and pw == 'xxx123##':
+    return render_template("wel.html",user =us)
+  else:
+    return  'Errore'
 
 
 if __name__ == '__main__':
