@@ -15,7 +15,7 @@ def hex():
 def hex_rgb():
   if request.method == "POST":
     # getting input with name = fname in HTML form
-    hexa = request.form.get("hexa").lstrip('#')
+    hexa = request.form.get("hexa").lstrip('#')        #request contiene tutte le info del nostro server
     rgb = tuple(int(hexa[i:i+2], 16) for i in (0, 2, 4))
     
 #--------------------------------------------------------------
