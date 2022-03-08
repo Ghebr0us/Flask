@@ -1,8 +1,9 @@
-<form action="/login" method = "GET">
-    <p>Name <input type = "text" name = "name" /></p>
-    <p>Username <input type = "text" name = "username" /></p>
-    <p>Sex <input type = "radio" name = "Sex" value="M" />M <input type = "radio" name = "Sex" value="F" />F <input type = "radio" name = "Sex" value="/" />ALTRO</p>
+<form action="/register" method = "GET",'POST'>
+    <p>Name <input type = "text" name = "name" required/></p>
+    <p>Username <input type = "text" name = "username" required/></p>
+    <p>Sex <input type = "radio" name = "Sex" value="M" required/>M <input type = "radio" name = "Sex" value="F" required/>F <input type = "radio" name = "Sex" value="/" required/>ALTRO</p>
     <p>Password <input type = "password" name = "Password" /></p>
-    <p>Confirm Password <input type = "password" name = "ConfPassword" /></p>
+    <p>Confirm Password <input type = "password" name = "ConfPassword" required/></p>
     <p><input type = "submit" value = "Submit"/></p>
+    <p><a href="/login">Hai già effettuato l'accesso?Effettua il Login!</a></p>
 </form>
