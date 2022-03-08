@@ -9,7 +9,7 @@ from flask import Flask, render_template , request
 app = Flask(__name__)
 @app.route('/', methods=['GET']) 
 def hex():
-    return render_template("home_style1.html",hex = hex) #questa è la prima fase, mandiamo nella pagina la form con l'input  e bottone.
+    return render_template("home_style1.html") #questa è la prima fase, mandiamo nella pagina la form con l'input  e bottone.
 
 @app.route('/RGB', methods = ['GET','POST'])
 def hex_rgb():

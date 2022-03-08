@@ -16,7 +16,7 @@ def log2():
   if us == 'admin' and pw == 'xxx123##':
     return render_template("wel.html",user =us)
   else:
-    return  'Errore'
+    return  '<h1>Errore</h1>'
 
 
 if __name__ == '__main__':
