@@ -18,22 +18,25 @@ def log1():
     us = request.args['username']
     pw = request.args['Password']
     confpw = request.args['ConfPassword']
-    sex = request.form.get('Sex')
+    Sex = request.form.get('ex')
     if confpw == pw:
-        data.append({'name': nm, 'username' : us, 'password' : pw, 'conferma_password' : confpw, 'sesso': sex})
+        data.append({'name': nm, 'username' : us, 'password' : pw, 'conferma_password' : confpw, 'sesso': Sex})
         print(data)
         return render_template("log.html", nm= nm, us = us, pw = pw , confpw=confpw,data= data)
     else:
         return '<h1>Errore</h1>'
     
 
-@app.route('/login', methods=['GET','POST'])
+@app.route('/log', methods=['GET','POST'])
 def log2():
+
+        return render_template('login.html')
+    
+@app.route('/login', methods=['GET','POST'])
+def log3():
     for i in range(len(data)):
         if username == data[i]["us"]:
-            return 'a'
-    else: 
-        return 'b'
-    
+            return render_template('login.html')
+
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
