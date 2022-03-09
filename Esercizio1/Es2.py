@@ -27,16 +27,18 @@ def log1():
         return '<h1>Errore</h1>'
     
 
-@app.route('/log', methods=['GET','POST'])
+@app.route('/log', methods=['GET'])
 def log2():
-
-        return render_template('login.html')
-    
-@app.route('/login', methods=['GET','POST'])
+    return render_template('login.html')
+@app.route('/login', methods=['GET'])
 def log3():
-    for i in range(len(data)):
-        if username == data[i]["us"]:
-            return render_template('login.html')
 
+    us_log = request.args['username']
+    pw_log = request.args['Password']
+    for utente in data:
+        if username == data[utente]["us_log"] and Password == data[utente]["pw_log"]:
+            return render_template("log.html",us_log = us_log,pw_log = pw_log)
+    return 'errore'
+    
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
