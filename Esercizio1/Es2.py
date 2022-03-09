@@ -18,7 +18,7 @@ def log1():
     us = request.args['username']
     pw = request.args['Password']
     confpw = request.args['ConfPassword']
-    Sex = request.form.get('ex')
+    Sex = request.args['sex']
     if confpw == pw:
         data.append({'name': nm, 'username' : us, 'password' : pw, 'conferma_password' : confpw, 'sesso': Sex})
         print(data)
@@ -36,8 +36,8 @@ def log3():
     us_log = request.args['username']
     pw_log = request.args['Password']
     for utente in data:
-        if username == data[utente]["us_log"] and Password == data[utente]["pw_log"]:
-            return render_template("log.html",us_log = us_log,pw_log = pw_log)
+        if utente['username'] == us_log and utente['password'] == pw_log:
+            return render_template("Welcome.html",us_log = us_log,pw_log = pw_log)
     return 'errore'
     
 if __name__ == '__main__':
