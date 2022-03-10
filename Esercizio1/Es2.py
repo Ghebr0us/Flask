@@ -37,8 +37,15 @@ def log3():
     pw_log = request.args['Password']
     for utente in data:
         if utente['username'] == us_log and utente['password'] == pw_log:
-            return render_template("Welcome.html",us_log = us_log,pw_log = pw_log)
-    return 'errore'
-    
+
+            if utente['sex'] == 'M':
+                return render_template('WelcomeM.html',nome_user=utente['name'])
+            else:
+                return render_template('WelcomeF.html',nome_user=utente['name'])  
+        else:
+            return render_template('Welcome*.html',nome_user=utente['name'])  
+
+        return render_template("Welcome.html",us_log = us_log,pw_log = pw_log)
+    return "<h1>Errore</h1>"
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
