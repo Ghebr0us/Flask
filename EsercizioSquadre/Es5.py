@@ -23,12 +23,33 @@ def create2():
     year = request.args['year']
     city = request.args['city']
     dati.append({'squadra': [team], 'anno': [year],'città' : [city]})
-    df = pd.DataFrame(data=dati).reset_index()
-    return render_template("newteam.html")
+    df = pd.DataFrame(data=dati)
+    print(df)
+    return render_template("search_home.html",team = team, year = year,city = city,df=df)
 
 
 @app.route('/search', methods=['GET'])
 def search():
+
+    scelta = request.argsget(dati, type=list())
+    if scelta == "squadra":
+        team = request.args['team']
+        for key, value in df.items():
+            if scelta == key:
+                df[team] = value
+                return render_template("search.html", risposta = [team])
+    elif scelta == "città":
+        city = request.args['city']
+    for key, value in df.items():
+            if scelta == value:
+                df[city] = key
+            return render_template("search.html", risposta = [city])
+    else:
+        year = request.args['year']
+    for key, value in df.items():
+            if scelta == value:
+                df[year] = key
+            return render_template("search.html", risposta = [year])
     return render_template("search.html")
 
 
