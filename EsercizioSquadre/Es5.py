@@ -19,9 +19,9 @@ def create():
 
 @app.route('/create2', methods=['GET'])
 def create2():
-    team = request.args['']
-    year = request.args['']
-    team = request.args['']
+    team = request.args['team']
+    year = request.args['year']
+    city = request.args['city']
     dati.append({'squadra': [team], 'anno': [year],'città' : [city]})
     df = pd.DataFrame(data=dati).reset_index()
     return render_template("newteam.html")
