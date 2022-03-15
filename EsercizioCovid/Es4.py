@@ -7,7 +7,7 @@ import pandas as pd  #installare prima pandas
 daticovid = pd.read_csv('https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/platea-dose-addizionale-booster.csv') #importiamo il file csv
 @app.route("/", methods=["GET"])
 def home():
-  listacovid = daticovid['nome_area'].drop_duplicates().to_list()  #creo la lista ed elimino i doppioni
+  listacovid = daticovid['nome_area'].drop_duplicates().to_list()  #elimino i doppioni(è possibile trasformarlo in una lista con .lo_list())
   return render_template("home19_automatic.html",listacovid = listacovid)
 
 
