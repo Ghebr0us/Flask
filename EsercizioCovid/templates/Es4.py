@@ -4,16 +4,15 @@
 from flask import Flask, render_template, request 
 app = Flask(__name__)
 import pandas as pd  #installare prima pandas
-daticovid = pd.read_csv('https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/platea-dose-addizionale-booster.csv') #importiamo il file csv
+daticovid = pd.read_csv('https://raw.githubusercontent.com/italia/covid19-opendata-vaccini/master/dati/platea-dose-addizionale-booster.csv')
 @app.route("/", methods=["GET"])
 def home():
-  listacovid = daticovid['nome_area'].drop_duplicates().to_list()  #creo la lista ed elimino i doppioni
-  return render_template("home19_automatic.html",listacovid = listacovid)
+    return render_template("home19_automatic.html")
 
 
 @app.route("/dati", methods=["GET"])
 def data():
-  nomeregione = request.args['regioni']  
+  nomeregione = request.args['regioni']
   risultato = daticovid[daticovid['nome_area'] == nomeregione]
   return render_template('covid.html', tables=[risultato.to_html()], titles=[''])
            
