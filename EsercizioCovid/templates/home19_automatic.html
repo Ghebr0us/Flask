@@ -1,0 +1,10 @@
+<!-- secondo metodo, con lista inserita automaticamente -->
+
+<form action="/dati" method = "GET">
+    <select name="regioni" id="regioni" method="GET">
+        {% for i in listacovid%}
+        <option value="{{i}}" SELECTED>{{i}}</option>
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
