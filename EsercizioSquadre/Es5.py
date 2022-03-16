@@ -34,8 +34,10 @@ def search():
     for scelta in dati:
 
         if scelta == "squadra" or scelta == "città" or scelta == "anno":
-           
-                return render_template("search.html", risposta = [year])
+            team = request.args['team']
+            scelta = dati[dati['squadra'] == team]
+            return render_template('search.html', tables=[scelta.to_html()], titles=[''])
+
         return render_template("search.html")
 
     return render_template("search.html",tables=[scelta.to_html()], titles=[''])
