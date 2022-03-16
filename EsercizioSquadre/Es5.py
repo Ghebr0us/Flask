@@ -31,27 +31,13 @@ def create2():
 @app.route('/search', methods=['GET'])
 def search():
 
-    scelta = request.argsget(dati, type=list())
-    if scelta == "squadra":
-        team = request.args['team']
-        for key, value in df.items():
-            if scelta == key:
-                df[team] = value
-                return render_template("search.html", risposta = [team])
-    elif scelta == "città":
-        city = request.args['city']
-    for key, value in df.items():
-            if scelta == value:
-                df[city] = key
-            return render_template("search.html", risposta = [city])
-    else:
-        year = request.args['year']
-    for key, value in df.items():
-            if scelta == value:
-                df[year] = key
-            return render_template("search.html", risposta = [year])
-    return render_template("search.html")
+    for scelta in dati:
 
+        if scelta == "squadra" or scelta == "città" or scelta == "anno":
+           
+                return render_template("search.html", risposta = [year])
+        return render_template("search.html")
 
+    return render_template("search.html",tables=[scelta.to_html()], titles=[''])
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
