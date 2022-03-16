@@ -22,24 +22,21 @@ def create2():
     team = request.args['team']
     year = request.args['year']
     city = request.args['city']
-    dati.append({'squadra': [team], 'anno': [year],'città' : [city]})
-    df = pd.DataFrame(data=dati)
-    print(df)
+    df = pd.read_csv("/workspace/Flask/EsercizioSquadre/templates/dati.csv")
+    df.append({'squadra': team, 'anno': year,'città' : city}, ignore_index=True)   
+    df.to_csv("/workspace/Flask/EsercizioSquadre/templates/dati.csv")
+    
     return render_template("search_home.html",team = team, year = year,city = city,df=df)
 
 
 @app.route('/search', methods=['GET'])
 def search():
+    indice = request.args.get('ricerca')
+    informazione = request.args.get("info")
+    print(indice, informazione)
+    scelta = dati[dati[informazione] == indice]
+    return render_template('search.html', tables=[scelta.to_html()], titles=[''])
 
-    for scelta in dati:
-
-        if scelta == "squadra" or scelta == "città" or scelta == "anno":
-            team = request.args['team']
-            scelta = dati[dati['squadra'] == team]
-            return render_template('search.html', tables=[scelta.to_html()], titles=[''])
-
-        return render_template("search.html")
-
-    return render_template("search.html",tables=[scelta.to_html()], titles=[''])
+    return 'errore'
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
