@@ -14,8 +14,7 @@ import matplotlib.pyplot as plt
 quartieri = gpd.read_file('https://dati.comune.milano.it/dataset/e8e765fc-d882-40b8-95d8-16ff3d39eb7c/resource/f5a2ea4b-3d9e-458c-a11f-a3815553db18/download/ds964_nil_wm.zip')
 
 @app.route('/', methods = ['GET'])
-def search():
-
+def home():
     return render_template('region.html')
 
 @app.route('/geoplot', methods=['GET'])
