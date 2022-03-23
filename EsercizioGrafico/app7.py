@@ -130,6 +130,7 @@ def plot35():
 
 @app.route('/fontanelle', methods=("POST", "GET"))
 def mpl4():
+    quartieri_fontane = 
     return render_template('plot.html',
                            PageTitle = "Matplotlib")
 
