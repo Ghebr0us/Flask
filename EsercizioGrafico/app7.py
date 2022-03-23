@@ -16,23 +16,114 @@ quartieri = gpd.read_file('/workspace/Flask/EsercizioGrafico/static/ds964_nil_wm
 @app.route('/', methods = ['GET'])
 def home():
     
-    return render_template('plot.html')
+    return render_template('region.html')
+
+#-------------------------------------------------
+
+
+
 
 @app.route('/plot.png', methods=['GET'])
 def plot_png():
 
     fig, ax = plt.subplots(figsize = (12,8))
 
-    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor = 'k')
     contextily.add_basemap(ax=ax)
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
-@app.route('/plot', methods=("POST", "GET"))
-def mpl():
+@app.route('/visualizza', methods=("POST", "GET"))
+def mpl1():
     return render_template('plot.html',
                            PageTitle = "Matplotlib")
+#----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+#---------------------------------------------------------------
+@app.route('/texthome', methods = ['GET'])
+def home2():
+    
+    return render_template('home2.html')
+
+
+
+@app.route('/plot2.png', methods=['GET'])
+def plot2_png():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    imgutente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+@app.route('/ricerca', methods=("POST", "GET"))
+def plot25():
+    global imgutente
+    quartiere_input = request.args['Quartiere']
+    imgutente = quartieri[quartieri['NIL'] == quartiere_input]
+    return render_template('plot2.html', PageTitle = "Matplotlib")
+#------------------------------------------------------------------
+
+
+
+
+
+#-----------------------------------------------------------------
+@app.route('/texthome2', methods = ['GET'])
+def home3():
+    
+    return render_template('home3.html', quartieri = quartieri['NIL'])
+
+
+
+@app.route('/plot3.png', methods=['GET'])
+def plot3_png():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    imgutente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+@app.route('/scelta', methods=("POST", "GET"))
+def plot35():   
+    global imgutente
+    quart_scelto = request.args['quartendina']
+    imgutente = quartieri[quartieri['NIL'] == quart_scelto]
+    return render_template('plot3.html', PageTitle = "Matplotlib")
+
+
+
+
+
+
+
+
+#---------------------------------------------------------------------------
+
+@app.route('/fontanelle', methods=("POST", "GET"))
+def mpl4():
+    return render_template('plot.html',
+                           PageTitle = "Matplotlib")
+
+
+
+
+
+
 
 
 if __name__ == '__main__':
