@@ -26,6 +26,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 quartieri = gpd.read_file('/workspace/Flask/EsercizioGrafico/static/ds964_nil_wm (8)')
+fontanelle = gpd.read_file('/workspace/Flask/EsercizioGrafico/static/Fontanelle')
 
 @app.route('/', methods = ['GET'])
 def home():
@@ -116,7 +117,7 @@ def plot3_png():
 def plot35():   
     global imgutente
     quart_scelto = request.args['quartendina']
-    imgutente = quartieri[quartieri['NIL'] == quart_scelto]
+    imgutente = fontanelle_quartieri[fontanelle_quartieri['NIL'] == quart_scelto]
     return render_template('plot3.html', PageTitle = "Matplotlib")
 
 
@@ -127,19 +128,34 @@ def plot35():
 
 
 #---------------------------------------------------------------------------
+@app.route('/texthome3', methods = ['GET'])
+def home4():
+    
+    return render_template('home4.html', quartieri = quartieri['NIL'])
+
+
+@app.route('/plot4.png', methods=['GET'])
+def plot4_png():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+    Quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    imgutente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
 
 @app.route('/fontanelle', methods=("POST", "GET"))
 def mpl4():
-    quartieri_fontane = 
-    return render_template('plot.html',
-                           PageTitle = "Matplotlib")
 
-
-
-
-
-
-
+    global imgutente 
+    quart_scelto = request.args['quartendina3']
+    global Quartiere
+    Quartiere = quartieri[quartieri.NIL.str.contains(quart_scelto)]
+    fontanelle_quartieri = fontanelle[fontanelle.within(Quartiere.geometry.squeeze())]
+    imgutente = fontanelle_quartieri
+    return render_template('plot4.html', PageTitle = "Matplotlib")
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
