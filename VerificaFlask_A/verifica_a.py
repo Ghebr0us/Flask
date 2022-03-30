@@ -10,7 +10,7 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-newradio = pd.read_csv("/workspace/Flask/VerificaFlask_A/static/coordfix_ripetitori_radiofonici_milano_160120_loc_final (1).csv")
+newradio = pd.read_csv("/workspace/Flask/VerificaFlask_A/static/coordfix_ripetitori_radiofonici_milano_160120_loc_final (1).csv", sep = ';')
 quartieri = pd.read_csv('/workspace/Flask/VerificaFlask_A/static/ds964_nil_wm (8)/NIL_WM.dbf')
 
 
