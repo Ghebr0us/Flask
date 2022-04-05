@@ -1,4 +1,23 @@
 
+# 1. Avere il numero di stazioni per ogni municipio (in ordine crescente sul numero del municipio) e il grafico
+# corrispondente
+
+# 2. Avere un elenco di tutte le stazioni radio che si trovano in un certo quartiere. L’utente inserisce il nome del
+# quartiere (anche solo una parte del nome) e il sito risponde con l’elenco ordinato in ordine alfabetico delle
+# stazioni radio presenti in quel quartiere
+
+# 3. Avere la posizione in città di una stazione radio. L’utente sceglie il nome della stazione da un menù a tendina (i
+# nomi delle stazioni devono essere ordinati in ordine alfabetico), clicca su un bottone e ottiene la mappa del
+# quartiere che contiene la stazione radio, con un pallino nero sulla posizione della stazione radio
+
+# Per richiamare i vari servizi del sito web, l’utente deve selezionare nella homepage il radiobutton corrispondente al
+# servizio richiesto e cliccare su un bottone.
+
+# Scrivere nella prima facciata del foglio protocollo il server flask, nella seconda i file html relativi alla home page e al
+# primo esercizio, nella terza facciata i file html relativi al secondo esercizio e nella quarta facciata i file html relativi al
+# terzo esercizio.
+
+
 from flask import Flask, render_template, send_file, make_response, url_for, Response, request
 app = Flask(__name__)
 import pandas as pd
