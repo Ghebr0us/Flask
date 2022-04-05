@@ -165,7 +165,7 @@ def station():
     scelta_stazione = request.args['stazione']
     stazione_utente = stazionigeo[stazionigeo.OPERATORE == scelta_stazione]
     quartiere1 = quartieri[quartieri.contains(stazione_utente.geometry.squeeze())]
-    return render_template('lista_stazione.html',quartiere1 = quartiere1)
+    return render_template('lista_stazione.html',quartiere1 = quartiere1.NIL)
 
 
 if __name__ == '__main__':
