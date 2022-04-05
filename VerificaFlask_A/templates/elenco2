@@ -1,0 +1,8 @@
+<form action="/mappa" method = "GET">
+  <select name="quartendina3" method="GET">
+      {% for i in quartieri%}
+      <option value="{{i}}" SELECTED>{{i}}</option>  <!--un option con il valore di i, che assume precendetemente la listacovid, dopodichè la {{i}}, fa in modo che lo visualizzamo.-->
+      {%endfor%}
+    </select>
+  <p><input type = "submit" value = "Submit" /></p>
+</form>

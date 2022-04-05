@@ -18,7 +18,7 @@
 # terzo esercizio.
 
 
-from flask import Flask, render_template, send_file, make_response, url_for, Response, request
+from flask import Flask, render_template, send_file, make_response, url_for, Response, request, redirect
 app = Flask(__name__)
 import pandas as pd
 
@@ -32,7 +32,8 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 stazioni = pd.read_csv("/workspace/Flask/VerificaFlask_A/static/coordfix_ripetitori_radiofonici_milano_160120_loc_final (1).csv" , sep=";")
-
+stazionigeo = gpd.read_file('/workspace/Flask/VerificaFlask_A/static/ds710_coordfix_ripetitori_radiofonici_milano_160120_loc_final.geojson')
+quartieri = gpd.read_file('/workspace/Flask/VerificaFlask_A/static/ds964_nil_wm (8)/NIL_WM.dbf')
 
 @app.route('/', methods=['GET'])
 def HomeP():
@@ -90,8 +91,51 @@ def numero4():
     return render_template("elenco.html", tabella = risultato.to_html())
 
 
+@app.route("/input", methods=["GET"])
+def input():
     
+    return render_template('input.html')
+
+@app.route("/ricerca", methods=["GET"])
+def ricerca():
+    nomeQuar = request.args['quartiere']
+    quartiere = quartieri[quartieri.NIL.str.contains(nomeQuar)]
+    stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())]
+    print(quartiere)
+    print(stazionigeo)
+    return render_template('elenco1.html',tabella = stazioniQuartiere.to_html())
+#_________________________________________________________________________________________________________________
 
 
+#______________________________________________________________________________________________________________________
+
+app.route('/dropdown', methods = ['GET'])
+def home4():
+    
+    return render_template('elenco2.html', quartieri = quartieri['NIL'])
+
+
+@app.route('/mappa.png', methods=['GET'])
+def plot4_png():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+    Quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    imgutente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+
+@app.route('/mappa', methods=("POST", "GET"))
+def mpl4():
+
+    global imgutente 
+    nomeQuar = request.args['quartiere']
+    global Quartiere
+    Quartiere = quartieri[quartieri.NIL.str.contains(nomeQuar)]
+    saquartieri = stazionigeo[stazionigeo.within(Quartiere.geometry.squeeze())]
+    imgutente = fontanelle_quartieri
+    return render_template('plot4.html', PageTitle = "Matplotlib")
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
