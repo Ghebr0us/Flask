@@ -1,0 +1,11 @@
+<form action="/scelta_stazione" method = "GET">
+  <select name="stazione" method="GET">
+
+    <!-- dentro le {} è ninja, interprete dei comandi -->
+
+      {% for stazione in stazioni%}
+      <option value="{{stazione}}" SELECTED>{{stazione}}</option>
+      {%endfor%}
+    </select>
+  <p><input type = "submit" value = "Submit" /></p>
+</form>

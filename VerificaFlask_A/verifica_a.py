@@ -98,44 +98,75 @@ def input():
 
 @app.route("/ricerca", methods=["GET"])
 def ricerca():
+    global quartiere, stazioniQuartiere
     nomeQuar = request.args['quartiere']
     quartiere = quartieri[quartieri.NIL.str.contains(nomeQuar)]
     stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())]
     print(quartiere)
     print(stazionigeo)
     return render_template('elenco1.html',tabella = stazioniQuartiere.to_html())
-#_________________________________________________________________________________________________________________
 
 
-#______________________________________________________________________________________________________________________
 
-app.route('/dropdown', methods = ['GET'])
-def home4():
-    
-    return render_template('elenco2.html', quartieri = quartieri['NIL'])
+
+
 
 
 @app.route('/mappa.png', methods=['GET'])
 def plot4_png():
 
     fig, ax = plt.subplots(figsize = (12,8))
-    Quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
-    imgutente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor = 'r')
+    stazioniQuartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5 , color = 'r')
     contextily.add_basemap(ax=ax)
     output = io.BytesIO()
     FigureCanvas(fig).print_png(output)
     return Response(output.getvalue(), mimetype='image/png')
 
 
-@app.route('/mappa', methods=("POST", "GET"))
-def mpl4():
+#_________________________________________________________________________________________________________________
 
-    global imgutente 
-    nomeQuar = request.args['quartiere']
-    global Quartiere
-    Quartiere = quartieri[quartieri.NIL.str.contains(nomeQuar)]
-    saquartieri = stazionigeo[stazionigeo.within(Quartiere.geometry.squeeze())]
-    imgutente = fontanelle_quartieri
-    return render_template('plot4.html', PageTitle = "Matplotlib")
+
+#______________________________________________________________________________________________________________________
+
+
+@app.route('/dropdown', methods = ['GET'])
+def home4():
+    #trasformare in una lista la colonna 'OPERATORE'
+    nomi_stazioni = stazioni.OPERATORE.to_list()
+    #eliminiamo i duplicati con set, dato che non prevede duplicati
+    nomi_stazioni = list(set(nomi_stazioni))
+    nomi_stazioni.sort()
+    return render_template('dropdown.html', stazioni = nomi_stazioni)
+
+
+
+
+@app.route('/mappa2.png', methods=['GET'])
+def mappa2():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    stazione_utente.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    quartiere1.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+
+
+
+
+
+@app.route('/scelta_stazione', methods = ['GET'])
+def station():
+    global quartiere1, stazione_utente
+    scelta_stazione = request.args['stazione']
+    stazione_utente = stazionigeo[stazionigeo.OPERATORE == scelta_stazione]
+    quartiere1 = quartieri[quartieri.contains(stazione_utente.geometry.squeeze())]
+    return render_template('lista_stazione.html',quartiere1 = quartiere1)
+
+
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
