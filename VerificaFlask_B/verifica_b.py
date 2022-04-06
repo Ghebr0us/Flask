@@ -48,7 +48,7 @@ def Home1():
 @app.route('/elenco', methods=['GET'])
 def elenco():
     global quartiere,stazioniQuartiere
-    quartieri_req = request.args['radiobutton']
+    quartieri_req = request.args['quartiere']
     quartiere = quartieri[quartieri.NIL.str.contains(quartieri_req)]
     stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())].sort_values(by = 'OPERATORE', ascending = True)
     
@@ -70,11 +70,27 @@ if __name__ == '__main__':
 
 
 @app.route('/elenco', methods=['GET'])
-def elenco():
-    global quartiere,stazioniQuartiere
+def elenco2():
+    global quartiere,stazioniQuartiere,quartieri_req
     quartieri_req = request.args['quartiere']
     quartiere = quartieri[quartieri.NIL.str.contains(quartieri_req)]
-    stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())].sort_values(by = 'OPERATORE', ascending = True)
+    stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())]
+
+
+    
     return render_template("in.html", quartieri = quartieri.NIL)
+
+
+@app.route('/mappa.png', methods=['GET'])
+def mappa2():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    quartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    stazioniQuartiere.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
