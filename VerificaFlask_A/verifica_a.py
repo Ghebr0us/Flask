@@ -104,7 +104,7 @@ def ricerca():
     stazioniQuartiere = stazionigeo[stazionigeo.intersects(quartiere.geometry.squeeze())]
     print(quartiere)
     print(stazionigeo)
-    return render_template('elenco1.html',tabella = stazioniQuartiere.to_html())
+    return render_template('elenco1.html', tabella = stazioniQuartiere.to_html())
 
 
 
