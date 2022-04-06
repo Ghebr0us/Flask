@@ -64,9 +64,6 @@ def elenco():
 def Home2():
   
     return render_template("home_es2.html", quartieri = quartieri.NIL)
-if __name__ == '__main__':
-  app.run(host='0.0.0.0', port=3245, debug=True)
-
 
 
 @app.route('/elenco', methods=['GET'])
