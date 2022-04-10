@@ -105,9 +105,13 @@ def m_input():
 
 @app.route("/linea", methods=["GET"])
 def linea():
-    global lineeUtente
+    global lineeUtente, quartieri_attraversati
     linea = int(request.args["linea_drop"])
-    lineeUtente = percorsi[percorsi["linea"] == linea]
+    lineeUtente = percorsi[percorsi["linea"] == linea].geometry.squeeze()
+    print(lineeUtente)
+
+    
+    quartieri_attraversati = quartieri[quartieri.intersects(lineeUtente)]
     return render_template("mappa.html", linea = linea)
 
 @app.route("/mappa.png", methods=["GET"])
@@ -115,7 +119,7 @@ def mappapng():
     fig, ax = plt.subplots(figsize = (12,8))
 
     lineeUtente.to_crs(epsg=3857).plot(ax=ax, edgecolor="k")
-    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor="k")
+    quartieri_attraversati.to_crs(epsg=3857).plot(ax=ax, color ="blue",alpha=0.5, edgecolor="k")
     contextily.add_basemap(ax=ax)   
 
     output = io.BytesIO()
