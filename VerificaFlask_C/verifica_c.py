@@ -56,12 +56,15 @@ def p_input():
     return render_template("percorso_input.html")
 
 
-@app.route('/linee', methods=['GET'])
+@app.route('/linee', methods=('POST','GET'))
 def p():
-    inputmin = request.args["min"]
-    inputmax = request.args["max"]
-    
-    range_percorsi = percorsi['lung_km'] in (inputmin,inputmax)
+    Min = min(float(request.args["Val1"]), float(request.args["Val2"]))
+    Max = max(float(request.args["Val1"]), float(request.args["Val2"]))
+    print(Min)
+    print(Max)
+     #range_percorsi = percorsi['lung_km'] in (inputmin,inputmax)
+
+    range_percorsi = percorsi[(percorsi["lung_km"] >= Min) & (percorsi["lung_km"] <= Max)].sort_values("lung_km")
     return  render_template("range_percorsi.html", tabella = range_percorsi.to_html() )
 
 
