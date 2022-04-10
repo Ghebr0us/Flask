@@ -105,20 +105,20 @@ def m_input():
 
 @app.route("/linea", methods=["GET"])
 def linea():
-    global lineeUtente, quartieri_attraversati
+    global lineaUtente, quartieri_attraversati
     linea = int(request.args["linea_drop"])
-    lineeUtente = percorsi[percorsi["linea"] == linea].geometry.squeeze()
-    print(lineeUtente)
+    lineaUtente = percorsi[percorsi["linea"] == linea]
+    print(lineaUtente)
 
     
-    quartieri_attraversati = quartieri[quartieri.intersects(lineeUtente)]
+    quartieri_attraversati = quartieri[quartieri.touches(lineaUtente.geometry.squeeze())]
     return render_template("mappa.html", linea = linea)
 
 @app.route("/mappa.png", methods=["GET"])
 def mappapng():
     fig, ax = plt.subplots(figsize = (12,8))
 
-    lineeUtente.to_crs(epsg=3857).plot(ax=ax, edgecolor="k")
+    lineaUtente.to_crs(epsg=3857).plot(ax=ax, edgecolor="k")
     quartieri_attraversati.to_crs(epsg=3857).plot(ax=ax, color ="blue",alpha=0.5, edgecolor="k")
     contextily.add_basemap(ax=ax)   
 
