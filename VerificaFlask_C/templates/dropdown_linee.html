@@ -1,0 +1,11 @@
+<form action="/linea" method = "GET">
+    <select name="linea_drop" method="GET">
+  
+      <!-- dentro le {} è ninja, interprete dei comandi -->
+  
+        {% for linea in linee%}
+        <option value="{{linea}}" SELECTED>{{linea}}</option>
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+  </form>

@@ -65,15 +65,8 @@ def p():
      #range_percorsi = percorsi['lung_km'] in (inputmin,inputmax)
 
     range_percorsi = percorsi[(percorsi["lung_km"] >= Min) & (percorsi["lung_km"] <= Max)].sort_values("lung_km")
-    return  render_template("range_percorsi.html", tabella = range_percorsi.to_html() )
+    return  render_template("tabella.html", tabella = range_percorsi.to_html() )
 
-
-
-
-
-
-
-    
 #________________________________________________________________________
 
 # 2. Avere un elenco di tutte le linee (tram e bus) che passano in un certo quartiere. L’utente inserisce il nome del
@@ -83,22 +76,18 @@ def p():
 #________________________________________________________________________
 @app.route('/quartiere_input', methods=['GET'])
 def q_input():
-    return render_template("home.html")
+    return render_template("quartiere_input.html")
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
+@app.route('/quartiere', methods=['GET'])
+def elenco():
+    global quartiere,stazioniQuartiere
+    quartieri_req = request.args['quart_input']
+    quartiere = quartieri[quartieri.NIL.str.contains(quartieri_req)]
+    percorsi_quartiere = percorsi[percorsi.intersects(quartiere.geometry.squeeze())].sort_values(by = 'linea', ascending = True)
+    return render_template("tabella.html", tabella = percorsi_quartiere.to_html())
 
 #________________________________________________________________________
 
@@ -109,7 +98,31 @@ def q_input():
 #________________________________________________________________________
 @app.route('/map_input', methods=['GET'])
 def m_input():
-    return render_template("home.html")
+    return render_template("dropdown_linee.html", linee = percorsi["linea"].drop_duplicates().sort_values(ascending=True))
     
+
+
+
+@app.route("/linea", methods=["GET"])
+def linea():
+    global lineeUtente
+    linea = int(request.args["linea_drop"])
+    lineeUtente = percorsi[percorsi["linea"] == linea]
+    return render_template("mappa.html", linea = linea)
+
+@app.route("/mappa.png", methods=["GET"])
+def mappapng():
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    lineeUtente.to_crs(epsg=3857).plot(ax=ax, edgecolor="k")
+    quartieri.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor="k")
+    contextily.add_basemap(ax=ax)   
+
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+
+
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
