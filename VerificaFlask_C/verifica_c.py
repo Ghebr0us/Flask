@@ -21,9 +21,14 @@ import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
-stazioni = pd.read_csv("/workspace/Flask/VerificaFlask_C/static/coordfix_ripetitori_radiofonici_milano_160120_loc_final (1).csv" , sep=";")
-stazionigeo = gpd.read_file('/workspace/Flask/VerificaFlask_C/static/ds710_coordfix_ripetitori_radiofonici_milano_160120_loc_final.geojson')
+percorsi = gpd.read_file('/workspace/Flask/VerificaFlask_C/static/tpl_percorsi.geojson')
 quartieri = gpd.read_file('/workspace/Flask/VerificaFlask_C/static/ds964_nil_wm (8)/NIL_WM.dbf')
+
+
+
+percorsi["lung_km"] = percorsi["lung_km"].astype(float)
+percorsi["linea"] = percorsi["linea"].astype(int)
+
 
 #___________________________________________________________________________________________________________________________
 
@@ -47,17 +52,17 @@ def selection():
 
 
 @app.route('/percorso_input', methods=['GET'])
-def Home():
+def p_input():
     return render_template("percorso_input.html")
 
 
-@app.route('/percorso', methods=['GET'])
-def Home():
+@app.route('/linee', methods=['GET'])
+def p():
     inputmin = request.args["min"]
     inputmax = request.args["max"]
-    quartiere = quartieri[quartieri.NIL.str.contains(quartieri_req)]
-    return render_template("percorso.html")
-
+    
+    range_percorsi = percorsi['lung_km'] in (inputmin,inputmax)
+    return  render_template("range_percorsi.html", tabella = range_percorsi.to_html() )
 
 
 
@@ -74,7 +79,7 @@ def Home():
 
 #________________________________________________________________________
 @app.route('/quartiere_input', methods=['GET'])
-def Home():
+def q_input():
     return render_template("home.html")
 
 
@@ -100,7 +105,7 @@ def Home():
 
 #________________________________________________________________________
 @app.route('/map_input', methods=['GET'])
-def Home():
+def m_input():
     return render_template("home.html")
     
 if __name__ == '__main__':
