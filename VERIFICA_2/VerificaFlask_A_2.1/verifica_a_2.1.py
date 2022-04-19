@@ -28,13 +28,31 @@ def h1():
 
 @app.route('/es1', methods=['GET'])
 def es1():
+    
     global com_prov, prov,prov_input,area
     prov_input = request.args['provincia']
-    prov = provincie[provincie['PROVINCIA'].str.contains(prov_input)]
-    com_prov = comuni[comuni.within(prov.geometry.squeeze())]
-    area = prov(prov['geometry'].area/10**6)
-    return render_template("risultato.html", area= area)
 
+    prov = provincie[provincie['DEN_PROV'] == prov_input]
+    com_prov = comuni[comuni.within(prov.geometry.squeeze())]
+    prov['area'] = prov.geometry.area
+    print(prov)
+    print(com_prov)
+    print(provincie)
+    return render_template("risultato.html")
+
+@app.route('/mappa', methods=['GET'])
+def mappa():
+
+    fig, ax = plt.subplots(figsize = (12,8))
+
+    prov.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    com_prov.to_crs(epsg=3857).plot(ax=ax, alpha=0.5)
+    contextily.add_basemap(ax=ax)
+    output = io.BytesIO()
+    FigureCanvas(fig).print_png(output)
+    return Response(output.getvalue(), mimetype='image/png')
+
+    return render_template("home1.html")
 
 
 
