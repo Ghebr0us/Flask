@@ -12,9 +12,9 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
 
-comuni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Com01012021_g_WGS84.dbf')
-provincie = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/ProvCM01012021_g_WGS84.dbf')
-regioni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Reg01012021_g_WGS84.dbf')
+comuni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Com01012021_g')
+provincie = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/ProvCM01012021_g')
+regioni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Reg01012021_g')
 ripartizioni = pd.read_csv('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/georef-italy-ripartizione-geografica.csv', sep=";")
 
 @app.route('/', methods=['GET'])
