@@ -1,0 +1,8 @@
+<form action="/es2" method = "GET">
+    <select name="droprov" method="GET">
+        {% for provincia in provincie%}
+        <option value="{{provincia}}" SELECTED>{{provincia}}</option> 
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>

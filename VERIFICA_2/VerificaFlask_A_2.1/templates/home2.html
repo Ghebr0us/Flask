@@ -1,0 +1,8 @@
+<form action="/h2.5" method = "GET">
+    <select name="dropreg" method="GET">
+        {% for regione in regioni%}
+        <option value="{{regione}}" SELECTED>{{regione}}</option> 
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>
