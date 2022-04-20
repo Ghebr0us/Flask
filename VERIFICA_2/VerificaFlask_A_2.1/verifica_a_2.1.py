@@ -62,7 +62,7 @@ def mappa():
 
     fig, ax = plt.subplots(figsize = (12,8))
 
-    prov.to_crs(epsg=3857).plot(ax=ax, edgecolor="k",linewidth=0.5)
+    prov.to_crs(epsg=3857).plot(ax=ax, edgecolor="k",linewidth=1)
     com_prov.to_crs(epsg=3857).plot(ax=ax, alpha=0.5, edgecolor="r")
     contextily.add_basemap(ax=ax)
     output = io.BytesIO()
@@ -91,15 +91,10 @@ def h2():
 def h2_5():
     global reg_input, prov_reg,area
     reg_input = request.args['dropreg']
+    print(reg_input)
     reg = regioni[regioni['DEN_REG'] == reg_input]
     prov_reg =provincie[provincie.within(reg.geometry.squeeze())]
-    area = reg.geometry.area/10**6
-    return render_template("home2_5.html", prov_reg = prov_reg, regioni = reg, provincie = provincie.DEN_PROV.sort_values(ascending=True))
-
-@app.route('/es2', methods=['GET'])
-def es2():
-    
-    return render_template("risultato.html",area=area)
+    return render_template("home2_5.html", prov_reg = prov_reg, regioni = reg, provincie = prov_reg.DEN_PROV.sort_values(ascending=True))
 
 
 if __name__ == '__main__':
