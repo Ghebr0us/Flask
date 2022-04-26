@@ -1,0 +1,8 @@
+<form action="/h3.5" method = "GET">
+    <select name="droprip" method="GET">
+        {% for ripartizione in ripartizioni%}
+        <option value="{{ripartizione}}" SELECTED>{{ripartizione}}</option> 
+        {%endfor%}
+      </select>
+    <p><input type = "submit" value = "Submit" /></p>
+</form>

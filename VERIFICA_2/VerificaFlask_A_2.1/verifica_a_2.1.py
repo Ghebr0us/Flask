@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 comuni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Com01012021_g')
 provincie = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/ProvCM01012021_g')
 regioni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Reg01012021_g')
-ripartizioni = gpd.read_file('VERIFICA_2/VerificaFlask_A_2.1/static/RipGeo01012021_g-20220426T170822Z-001')
+ripartizioni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/RipGeo01012021_g')
 
 
 #______________________________________________________________________________________________________________________________
@@ -113,16 +113,16 @@ def h2_5():
 
 @app.route('/h3', methods=['GET'])
 def h3():
-    return render_template("home3.html",ripartizioni = ripartizioni.Ripartizione_geografica.sort_values(ascending=True))
+    return render_template("home3.html",ripartizioni = ripartizioni.DEN_RIP.sort_values(ascending=True))
 
-@app.route('/h2.5', methods=['GET'])
+@app.route('/h3.5', methods=['GET'])
 def h3_5():
-    global reg_input, prov_reg,area
-    reg_input = request.args['dropreg']
-    print(reg_input)
-    reg = regioni[regioni['DEN_REG'] == reg_input]
-    prov_reg =provincie[provincie.within(reg.geometry.squeeze())]
-    return render_template("home2_5.html", prov_reg = prov_reg, regioni = reg, provincie = prov_reg.DEN_PROV.sort_values(ascending=True))
+    global rip_input, reg_rip,area
+    rip_input = request.args['droprip']
+    rip = ripartizioni[ripartizioni['DEN_RIP'] == rip_input]
+    print(rip)
+    reg_rip =regioni[regioni.within(rip.geometry.squeeze())]
+    return render_template("home2.html" , regioni = reg_rip.DEN_REG.sort_values(ascending=True))
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
