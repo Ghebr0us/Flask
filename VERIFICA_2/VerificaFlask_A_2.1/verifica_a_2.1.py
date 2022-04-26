@@ -15,13 +15,13 @@ import matplotlib.pyplot as plt
 comuni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Com01012021_g')
 provincie = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/ProvCM01012021_g')
 regioni = gpd.read_file('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/Reg01012021_g')
-ripartizioni = pd.read_csv('/workspace/Flask/VERIFICA_2/VerificaFlask_A_2.1/static/georef-italy-ripartizione-geografica.csv', sep=";")
+ripartizioni = gpd.read_file('VERIFICA_2/VerificaFlask_A_2.1/static/RipGeo01012021_g-20220426T170822Z-001')
 
 
 #______________________________________________________________________________________________________________________________
 
 
-# inserire il nome di una provincia, cliccare su un bottone ed ottenere le seguenti informazioni:
+# 1. inserire il nome di una provincia, cliccare su un bottone ed ottenere le seguenti informazioni:
 
 # a. mappa geografica con i confini della provincia (confini neri) con l’indicazione al suo interno dei comuni
 # che la compongono (confini rossi)
@@ -54,6 +54,7 @@ def es1():
     print(provincie)
     print(comuni)
     print(regioni)
+    print(ripartizioni)
     print(area)
     return render_template("risultato.html",area=area)
 
@@ -76,7 +77,9 @@ def mappa():
 # 2. scegliere il nome della provincia da una serie di menù a tendina ed avere le stesse informazioni dell’esercizio
 # precedente. Per scegliere la provincia, l’utente sceglie prima la regione (in cui si trova la provincia) da un menù a
 # tendina, la seleziona, clicca su un bottone e ottiene l’elenco delle province di quella regione, sempre in un menù
-# a tendina. A questo punto sceglie la provincia dal menù a tendina, clicca su un bottone e ottiene le informazioni.
+# a tendina.
+
+#  A questo punto sceglie la provincia dal menù a tendina, clicca su un bottone e ottiene le informazioni.
 # Tutti gli elenchi devono essere ordinati in ordine alfabetico. Ottimizzare il lavoro in modo da poter riutilizzare il
 # codice dell’esercizio 1
 
@@ -96,6 +99,30 @@ def h2_5():
     prov_reg =provincie[provincie.within(reg.geometry.squeeze())]
     return render_template("home2_5.html", prov_reg = prov_reg, regioni = reg, provincie = prov_reg.DEN_PROV.sort_values(ascending=True))
 
+
+#______________________________________________________________________________________________________________________________
+
+# 3. come l’esercizio precedente ma l’utente sceglie a partire dalla ripartizione geografica (che contiene la regione
+# che contiene a sua volta la provincia). Usare sempre menù a tendina e ordinare sempre gli elenchi in ordine
+# alfabetico. 
+
+# Ottimizzare il lavoro in modo da poter riutilizzare il codice dell’esercizio 2
+
+
+#______________________________________________________________________________________________________________________________
+
+@app.route('/h3', methods=['GET'])
+def h3():
+    return render_template("home3.html",ripartizioni = ripartizioni.Ripartizione_geografica.sort_values(ascending=True))
+
+@app.route('/h2.5', methods=['GET'])
+def h3_5():
+    global reg_input, prov_reg,area
+    reg_input = request.args['dropreg']
+    print(reg_input)
+    reg = regioni[regioni['DEN_REG'] == reg_input]
+    prov_reg =provincie[provincie.within(reg.geometry.squeeze())]
+    return render_template("home2_5.html", prov_reg = prov_reg, regioni = reg, provincie = prov_reg.DEN_PROV.sort_values(ascending=True))
 
 if __name__ == '__main__':
   app.run(host='0.0.0.0', port=3245, debug=True)
